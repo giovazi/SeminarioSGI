@@ -17,6 +17,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GeometriaP2", "..\Geometria
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Reloj3D", "..\Project1\Project1\Project1.vcxproj", "{1C616C8B-1D61-4E06-B223-EBE75AD5CC3D}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Clock", "..\Clock\Clock.vcxproj", "{3461C0AF-448D-4ADB-BB32-251E5B2EFEF5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -81,6 +83,14 @@ Global
 		{1C616C8B-1D61-4E06-B223-EBE75AD5CC3D}.Release|x64.Build.0 = Release|x64
 		{1C616C8B-1D61-4E06-B223-EBE75AD5CC3D}.Release|x86.ActiveCfg = Release|Win32
 		{1C616C8B-1D61-4E06-B223-EBE75AD5CC3D}.Release|x86.Build.0 = Release|Win32
+		{3461C0AF-448D-4ADB-BB32-251E5B2EFEF5}.Debug|x64.ActiveCfg = Debug|x64
+		{3461C0AF-448D-4ADB-BB32-251E5B2EFEF5}.Debug|x64.Build.0 = Debug|x64
+		{3461C0AF-448D-4ADB-BB32-251E5B2EFEF5}.Debug|x86.ActiveCfg = Debug|Win32
+		{3461C0AF-448D-4ADB-BB32-251E5B2EFEF5}.Debug|x86.Build.0 = Debug|Win32
+		{3461C0AF-448D-4ADB-BB32-251E5B2EFEF5}.Release|x64.ActiveCfg = Release|x64
+		{3461C0AF-448D-4ADB-BB32-251E5B2EFEF5}.Release|x64.Build.0 = Release|x64
+		{3461C0AF-448D-4ADB-BB32-251E5B2EFEF5}.Release|x86.ActiveCfg = Release|Win32
+		{3461C0AF-448D-4ADB-BB32-251E5B2EFEF5}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
