@@ -46,12 +46,14 @@ void init() {
 }
 
 void display() {
+
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
 
 	//Situar la Camara
 	gluLookAt(0, 0, 8, 0, 0, 0, 0, 1, 0);
+
 	glPushMatrix();
 	glColor3f(0.0, 0.0, 0.3);
 	glScalef(0.8,0.8,0.8);
@@ -74,27 +76,28 @@ void display() {
 	}
 	glPopMatrix();
 
-	double x = 0.0;
-	double y = 1.0;
-	int rad = 180;
-	double t = 0.0;
-	double t1 = 0.0;
-	glTranslatef(x, y, 0);
-	for (auto i = 0;i < 12;i++) {
-		glPushMatrix();
-		glColor3f(0, 0, 1);
-		glTranslatef(x, y, 0);
-		glRotatef(rad, 0, 0, 1);
-		//glRotatef(30, 1, 1, 1);
-		glScalef(0.1, 0.1, 0.1);
-		glCallList(triangle);
-		glPopMatrix();
-		x += (0.5-t);
-		y -= (0.3+t1);
-		rad -= 30;
-		t += 0.15;
-		t1 += 0.05;
+	for (auto angle = 0; angle <= 360; angle += 30)
+	{
+		glBegin(GL_LINES);
+		glColor3f(0.2, 0.2, 0.2);
+		glVertex3f(0.0 + cos(angle * PI / 180.0f)* (1.3 - 0.15), 0.0 + sin(angle * PI / 180.0f) * (1.3 - 0.15), 0.0);
+		glVertex3f(0.0 + cos(angle * PI / 180.0f)* 1.3, 0.0 + sin(angle * PI / 180.0f) * 1.3, 0.0);
+		glEnd();
 	}
+	glPopMatrix();
+
+	glPushMatrix();
+	glTranslatef(0.5, 0, 0);
+	glRotatef(90, 0, 1, 1);
+	glutWireCone(0.15, 0.3, 5, 5);
+	glPopMatrix();
+
+	glPushMatrix();
+	glTranslatef(0.5, 0.2, 0);
+	glRotatef(90, 0, 1, 1);
+	glutWireCone(0.05,0.5, 5, 5);
+	glPopMatrix();
+
 
 	glutSwapBuffers();
 }
