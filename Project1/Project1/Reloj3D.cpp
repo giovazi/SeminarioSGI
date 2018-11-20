@@ -76,12 +76,12 @@ void display() {
 	}
 	glPopMatrix();
 
-	for (auto angle = 0; angle <= 360; angle += 30)
+	for (auto i = 0; i <= 360; i += 30)
 	{
 		glBegin(GL_LINES);
 		glColor3f(0.2, 0.2, 0.2);
-		glVertex3f(0.0 + cos(angle * PI / 180.0f)* (1.3 - 0.15), 0.0 + sin(angle * PI / 180.0f) * (1.3 - 0.15), 0.0);
-		glVertex3f(0.0 + cos(angle * PI / 180.0f)* 1.3, 0.0 + sin(angle * PI / 180.0f) * 1.3, 0.0);
+		glVertex3f(0.0 + cos(i * PI / 180.0f)* (1.3 - 0.15), 0.0 + sin(i * PI / 180.0f) * (1.3 - 0.15), 0.0);
+		glVertex3f(0.0 + cos(i * PI / 180.0f)* 1.3, 0.0 + sin(i * PI / 180.0f) * 1.3, 0.0);
 		glEnd();
 	}
 	glPopMatrix();
