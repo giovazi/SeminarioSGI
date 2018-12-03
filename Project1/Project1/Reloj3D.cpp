@@ -2,48 +2,80 @@
 
 #include <iostream>
 #include <Utilidades.h>
+#include <ctime>
 
 using namespace std;
 GLuint estrella,triangle;
+int seconds, minutes, horas;
 
 // Variables dependientes del tiempo
 static float alfa = 0;
 
-void init() {
-	//Configurar ek motor de render
-	glClearColor(1.0, 1.0, 1.0, 1);
-	estrella = glGenLists(2);
+void defineStar() {
+	//Creo una estrella
+	estrella = glGenLists(1);
 	glNewList(estrella, GL_COMPILE);
 	glBegin(GL_TRIANGLE_STRIP);
 	for (auto i = 0;i < 3;i++) {
-		glVertex3f(0.5*cos(i * 2 * PI / 3 + PI / 2), 0.5 * sin(i * 2 * PI / 3 + PI / 2), 0);
-		glVertex3f(0.3 * cos(i * 2 * PI / 3 + PI / 2), 0.3 * sin(i * 2 * PI / 3 + PI / 2), 0);
+		glVertex3f(0.5f * cos(i * 2 * PI / 3 + PI / 2), 0.5f * sin(i * 2 * PI / 3 + PI / 2), 0);
+		glVertex3f(0.3f * cos(i * 2 * PI / 3 + PI / 2), 0.3f * sin(i * 2 * PI / 3 + PI / 2), 0);
 	}
-	glVertex3f(0.5 *cos(0 * 2 * PI / 3 + PI / 2), 0.5 * sin(0 * 2 * PI / 3 + PI / 2), 0);
-	glVertex3f(0.3 * cos(0 * 2 * PI / 3 + PI / 2), 0.3 * sin(0 * 2 * PI / 3 + PI / 2), 0);
+	glVertex3f(0.5f * cos(0 * 2 * PI / 3 + PI / 2), 0.5f * sin(0 * 2 * PI / 3 + PI / 2), 0);
+	glVertex3f(0.3f * cos(0 * 2 * PI / 3 + PI / 2), 0.3f * sin(0 * 2 * PI / 3 + PI / 2), 0);
 	glEnd();
 	glBegin(GL_TRIANGLE_STRIP);
 	for (auto i = 0;i < 3;i++) {
-		glVertex3f(-0.5*cos(i * 2 * PI / 3 + PI / 2), -0.5 * sin(i * 2 * PI / 3 + PI / 2), 0);
-		glVertex3f(-0.3 * cos(i * 2 * PI / 3 + PI / 2), -0.3 * sin(i * 2 * PI / 3 + PI / 2), 0);
+		glVertex3f(-0.5f * cos(i * 2 * PI / 3 + PI / 2), -0.5f * sin(i * 2 * PI / 3 + PI / 2), 0);
+		glVertex3f(-0.3f * cos(i * 2 * PI / 3 + PI / 2), -0.3f * sin(i * 2 * PI / 3 + PI / 2), 0);
 	}
-	glVertex3f(-0.5*cos(0 * 2 * PI / 3 + PI / 2), -0.5 * sin(0 * 2 * PI / 3 + PI / 2), 0);
-	glVertex3f(-0.3 * cos(0 * 2 * PI / 3 + PI / 2), -0.3 * sin(0 * 2 * PI / 3 + PI / 2), 0);
+	glVertex3f(-0.5f * cos(0 * 2 * PI / 3 + PI / 2), -0.5f * sin(0 * 2 * PI / 3 + PI / 2), 0);
+	glVertex3f(-0.3f * cos(0 * 2 * PI / 3 + PI / 2), -0.3f * sin(0 * 2 * PI / 3 + PI / 2), 0);
 	glEnd();
 	glEndList();
-	triangle = estrella + 1;
-	glNewList(triangle, GL_COMPILE);
-	glBegin(GL_TRIANGLE_STRIP);
-	for (auto i = 0;i < 3;i++) {
-		glVertex3f(1*cos(i * 2 * PI / 3 + PI / 2), 1 * sin(i * 2 * PI / 3 + PI / 2), 0);
-		glVertex3f(0.8 * cos(i * 2 * PI / 3 + PI / 2), 0.8 * sin(i * 2 * PI / 3 + PI / 2), 0);
+}
+
+void drawCircle(GLfloat x, GLfloat y, GLfloat r) {
+	static const double inc = PI / 96;
+	static const double max = 2 * PI;
+	glBegin(GL_LINE_LOOP);
+	glColor3f(0.0f,0.8f,0.8f);
+	for (float d = 0; d < max; d += inc) {
+		glVertex2f(cos(d) * r + x, sin(d) * r + y);
 	}
-	glVertex3f(1 *cos(0 * 2 * PI / 3 + PI / 2), 1 * sin(0 * 2 * PI / 3 + PI / 2), 0);
-	glVertex3f(0.8 * cos(0 * 2 * PI / 3 + PI / 2), 0.8 * sin(0 * 2 * PI / 3 + PI / 2), 0);
 	glEnd();
-	glEndList();
+}
+
+void drawClock() {
+	//Clock circle
+	drawCircle(0, 0, 1.35f);
+	int j = 0;
+	//Clock Tick
+	for (auto i = 0; i <= 360; i += 30)
+	{
+		glBegin(GL_LINES);
+		glColor3f(0.0f, 0.8f, 0.8f);
+		if ((j % 3) == 0) {
+			glVertex3f(0 + cos(i * PI / 180)* 1.025f, 0 + sin(i * PI / 180) * 1.025f, 0);
+			glVertex3f(0 + cos(i * PI / 180)* 1.325f, 0 + sin(i * PI / 180) * 1.325f, 0);
+		}
+		else {
+			glVertex3f(0 + cos(i * PI / 180)* (1.3f - 0.15f), 0 + sin(i * PI / 180) * (1.3f - 0.15f), 0);
+			glVertex3f(0 + cos(i * PI / 180)* 1.3f, 0 + sin(i * PI / 180) * 1.3f, 0);
+		}
+		glEnd();
+		j++;
+	}
+}
+
+void init() {
+	//Configurar el motor de render
+	glClearColor(0.2f, 0.2f, 0.2f, 1.0f);
+
+	defineStar();
+
 	glEnable(GL_DEPTH_TEST);
 }
+
 
 void display() {
 
@@ -54,50 +86,51 @@ void display() {
 	//Situar la Camara
 	gluLookAt(0, 0, 8, 0, 0, 0, 0, 1, 0);
 
-	glPushMatrix();
-	glColor3f(0.0, 0.0, 0.3);
-	glScalef(0.8,0.8,0.8);
-	glRotatef(alfa/2, 1, 1, 0);
-	glCallList(estrella);
-	int ra = 0;
-	float r = 1.0;
+	glLineWidth(4);
+
+	drawClock();
+
+	//Horas
+	glBegin(GL_LINES);
+	glColor3f(1, 1, 0);
+	glVertex3f(0 + sin((horas*30) * PI / 180)* 0.25f, 0 + cos((horas*30) * PI / 180) * 0.25f, 0.0);
+	glVertex3f(0 + sin((horas*30) * PI / 180)* 0.7f, 0 + cos((horas*30) * PI / 180) * 0.7f, 0.0);
+	glEnd();
+
+	//Minutes
+	glBegin(GL_LINES);
+	glColor3f(0, 1, 0);
+	glVertex3f(0 + sin((minutes * 6) * PI / 180)* 0.25f, 0 + cos((minutes * 6) * PI / 180) * 0.25f, 0);
+	glVertex3f(0 + sin((minutes * 6) * PI / 180)* 0.85f, 0 + cos((minutes * 6) * PI / 180) * 0.85f, 0);
+	glEnd();
+
+	//Seconds
+	glBegin(GL_LINES);
+	glColor3f(1, 0, 0);
+	glVertex3f(0 + sin((seconds * 6) * PI / 180)* 0.25f, 0 + cos((seconds * 6) * PI / 180) * 0.25f, 0);
+	glVertex3f(0 + sin((seconds * 6) * PI / 180)* 1, 0 + cos((seconds * 6) * PI / 180) * 1, 0);
+	glEnd();
+
+	//Estrella3D
+	float ra = 0;
+	float r = 0.0;
 	float g = 1.0;
-	float b = 0.0;
+	float b = 1.0;
+	glPushMatrix();
+	glScalef(0.45f, 0.45f, 0.45f);
+	glRotatef(alfa / 2, 1, 1, 0);
 	for (auto i = 0;i < 5;i++) {
-		ra += 30;
-		r -= 0.1;
-		g -= 0.1;
-		b += 0.1;
 		glColor3f(r, g, b);
 		glPushMatrix();
 		glRotatef(ra, 0, 1, 0);
 		glCallList(estrella);
 		glPopMatrix();
+		ra += 30;
+		r += 0.1f;
+		g -= 0.2f;
+		b -= 0.1f;
 	}
 	glPopMatrix();
-
-	for (auto i = 0; i <= 360; i += 30)
-	{
-		glBegin(GL_LINES);
-		glColor3f(0.2, 0.2, 0.2);
-		glVertex3f(0.0 + cos(i * PI / 180.0f)* (1.3 - 0.15), 0.0 + sin(i * PI / 180.0f) * (1.3 - 0.15), 0.0);
-		glVertex3f(0.0 + cos(i * PI / 180.0f)* 1.3, 0.0 + sin(i * PI / 180.0f) * 1.3, 0.0);
-		glEnd();
-	}
-	glPopMatrix();
-
-	glPushMatrix();
-	glTranslatef(0.5, 0, 0);
-	glRotatef(90, 0, 1, 1);
-	glutWireCone(0.15, 0.3, 5, 5);
-	glPopMatrix();
-
-	glPushMatrix();
-	glTranslatef(0.5, 0.2, 0);
-	glRotatef(90, 0, 1, 1);
-	glutWireCone(0.05,0.5, 5, 5);
-	glPopMatrix();
-
 
 	glutSwapBuffers();
 }
@@ -113,10 +146,7 @@ void reshape(GLint w, GLint h) {
 }
 
 void update() {
-	// Fase de actualization
-	// Sin control del tiempo
-	//alfa += 0.1;
-	// Con control del tiempo
+
 	static const float omega = 1;	// Vueltas por segundo
 	// Hora anterior
 	static int antes = glutGet(GLUT_ELAPSED_TIME);
@@ -124,14 +154,18 @@ void update() {
 	int ahora = glutGet(GLUT_ELAPSED_TIME);
 
 	// Tiempo trascurrido
-	float t_tras = (float)(ahora - antes) / 1000.0;
+	float t_tras = (ahora - antes) / 1000.0f;
+	alfa += 360 * omega * t_tras;
 
-	// Incremento = velocidad*tiempo;
-	alfa += 360 * omega*t_tras;
+	time_t myTime = time(NULL);
+	struct tm time;
+	localtime_s(&time, &myTime);
 
-	// Actualizar la hora para la proxima vez
+	seconds = time.tm_sec;
+	minutes = time.tm_min;
+	horas = time.tm_hour%12;
+	
 	antes = ahora;
-
 	// Mandar evento de dibujo
 	glutPostRedisplay();
 }
@@ -145,7 +179,7 @@ void onTimer(int tiempo) {
 }
 
 
-void main(int argc, char ** argv)
+int main(int argc, char ** argv)
 // Programa principal
 {
 	glutInit(&argc, argv);
