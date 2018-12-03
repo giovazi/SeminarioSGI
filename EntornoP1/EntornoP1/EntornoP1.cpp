@@ -7,7 +7,7 @@ using namespace std;
 
 void display()
 {
-	glClear(GL_COLOR_BUFFER_BIT);
+	glClear(GL_COLOR_BUFFER_BIT); 
 	glClearColor(0.0, 0.0, 0.3, 0.0);
 
 	glFlush();
